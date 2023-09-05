@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Countdown Timer</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 50px;
+    }
+
+    .countdown-container {
+      margin-top: 30px;
+    }
+
+    .countdown-input {
+      display: inline-block;
+      margin: 10px;
+    }
+
+    .countdown-input label {
+      font-weight: bold;
+    }
+
+    .countdown-input input {
+      width: 50px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .countdown-button {
+      margin-top: 10px;
+    }
+
+    #timer {
+      font-size: 48px;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Countdown Timer</h1>
+  <div>
+    <label for="hours">Hours:</label>
+    <input type="number" id="hours" min="0" max="23" value="0">
+    <label for="minutes">Minutes:</label>
+    <input type="number" id="minutes" min="0" max="59" value="0">
+    <label for="seconds">Seconds:</label>
+    <input type="number" id="seconds" min="0" max="59" value="0">
+    <button onclick="startCountdown()">Start Countdown</button>
+  </div>
+  <div id="timer">00:00:00</div>
+
+  <script>
+    function startCountdown() {
+      // Get user input
+      var hoursInput = document.getElementById("hours");
+      var minutesInput = document.getElementById("minutes");
+      var secondsInput = document.getElementById("seconds");
+
+      var hours = parseInt(hoursInput.value);
+      var minutes = parseInt(minutesInput.value);
+      var seconds = parseInt(secondsInput.value);
+
+      // Convert user input to milliseconds
+      var countdownTime = (hours * 60 * 60 + minutes * 60 + seconds) * 1000;
+
+      // Calculate the target time
+      var countDownDate = new Date().getTime() + countdownTime;
+
+      // Update the countdown every second
+      var x = setInterval(function() {
+        // Get the current time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the countdown date
+        var distance = countDownDate - now;
+
+        // Calculate time units
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="timer"
+        document.getElementById("timer").innerHTML = hours + ":" + minutes + ":" + seconds;
+
+        // If the countdown is finished, display a message
+        if (distance < 0) {
+          clearInterval(x);
+          document.getElementById("timer").innerHTML = "EXPIRED";
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
